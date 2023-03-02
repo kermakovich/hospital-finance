@@ -1,4 +1,4 @@
-package solvd.laba.ermakovich.hf;
+package solvd.laba.ermakovich.hf.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import solvd.laba.ermakovich.hf.domain.Account;

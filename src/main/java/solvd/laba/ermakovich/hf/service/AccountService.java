@@ -9,7 +9,7 @@ import java.util.UUID;
  */
 public interface AccountService {
 
-    Account getInfo(UUID employeeId);
+    Account getByExternalId(UUID employeeId);
 
     Account create(UUID employeeUuid);
 
