@@ -3,11 +3,8 @@ package solvd.laba.ermakovich.hf.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import java.math.BigDecimal;
-import java.util.Random;
 import java.util.UUID;
 
 /**

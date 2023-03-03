@@ -1,7 +1,6 @@
 package solvd.laba.ermakovich.hf.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 
