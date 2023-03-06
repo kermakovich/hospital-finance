@@ -11,8 +11,6 @@ spring:
   jpa:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    hibernate:
-      ddl-auto: update
   liquibase:
     change-log: classpath:db/liquibaseConfig.yml
     liquibase-schema: ${SCHEMA}
