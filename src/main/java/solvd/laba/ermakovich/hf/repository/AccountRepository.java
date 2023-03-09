@@ -1,18 +1,18 @@
 package solvd.laba.ermakovich.hf.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.r2dbc.repository.R2dbcRepository;
+import reactor.core.publisher.Mono;
 import solvd.laba.ermakovich.hf.domain.Account;
 
-import java.util.Optional;
 import java.util.UUID;
 
 /**
  * @author Ermakovich Kseniya
  */
-public interface AccountRepository extends JpaRepository<Account, Long> {
+public interface AccountRepository extends R2dbcRepository<Account, Long> {
 
-    boolean existsByExternalId(UUID externalId);
+    Mono<Boolean> existsByExternalId(UUID externalId);
 
-    Optional<Account> findByExternalId(UUID employeeId);
+    Mono<Account> findByExternalId(UUID employeeId);
 
 }
