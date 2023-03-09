@@ -17,8 +17,5 @@ public class WebClientConfig {
     @LoadBalanced
     public WebClient.Builder webClient() {
         return WebClient.builder();
-//                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-//                .baseUrl("http://HOSPITAL-USERS")
-//                .build();
     }
 }
