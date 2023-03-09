@@ -14,6 +14,7 @@
 		<springboot.version>3.0.1</springboot.version>
 		<lombok.version>1.18.24</lombok.version>
 		<postgres.version>42.5.1</postgres.version>
+		<postgres.r2dbc.version>1.0.1.RELEASE</postgres.r2dbc.version>
 		<maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
 		<mapstruct.version>1.5.3.Final</mapstruct.version>
 		<eureka.client.version>4.0.0</eureka.client.version>
@@ -58,8 +59,13 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<artifactId>spring-boot-starter-data-r2dbc</artifactId>
 			<version>${springboot.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>r2dbc-postgresql</artifactId>
+			<version>${postgres.r2dbc.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -92,23 +98,11 @@
 			<version>${preliquibase.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-openfeign</artifactId>
-			<version>${spring-cloud.version}</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+			<version>${springboot.version}</version>
 		</dependency>
 	</dependencies>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 
 	<build>
 		<plugins>

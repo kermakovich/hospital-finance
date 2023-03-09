@@ -1,5 +1,6 @@
 package solvd.laba.ermakovich.hf.service;
 
+import reactor.core.publisher.Mono;
 import solvd.laba.ermakovich.hf.domain.Account;
 
 import java.util.UUID;
@@ -9,8 +10,8 @@ import java.util.UUID;
  */
 public interface AccountService {
 
-    Account getByExternalId(UUID employeeId);
+    Mono<Account> getByExternalId(UUID employeeId);
 
-    Account create(UUID employeeUuid);
+    Mono<Account> create(UUID employeeUuid);
 
 }

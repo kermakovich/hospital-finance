@@ -4,11 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 import solvd.laba.ermakovich.hf.domain.Account;
+import solvd.laba.ermakovich.hf.domain.exception.ResourceAlreadyExistsException;
 import solvd.laba.ermakovich.hf.domain.exception.ResourceDoesNotExistException;
 import solvd.laba.ermakovich.hf.service.AccountService;
+import solvd.laba.ermakovich.hf.service.UserClient;
 import solvd.laba.ermakovich.hf.web.dto.AccountDto;
-import solvd.laba.ermakovich.hf.web.feign.AppointmentClient;
 import solvd.laba.ermakovich.hf.web.mapper.AccountMapper;
 
 import java.util.UUID;
@@ -22,22 +25,23 @@ import java.util.UUID;
 public class AccountController {
 
     private final AccountService accountService;
+    private final UserClient userClient;
     private final AccountMapper accountMapper;
-    private final AppointmentClient appointmentClient;
 
     @GetMapping
-    public AccountDto retrieveInfo(@RequestParam UUID employeeUuid) {
-        Boolean isUserExist = appointmentClient.isDoctorExist(employeeUuid);
-        if (!isUserExist) {
-            throw new ResourceDoesNotExistException("no user with this uuid");
-        }
-        Account account = accountService.getByExternalId(employeeUuid);
-        return accountMapper.toDto(account);
+    public Mono<Account> retrieveInfo(@RequestParam UUID employeeUuid) {
+        Mono<Boolean> isUserExist = userClient.isExistByExternalId(employeeUuid);
+            return isUserExist.flatMap(isExist -> {
+            if (Boolean.FALSE.equals(isExist))
+                throw new ResourceDoesNotExistException("user does not exist");
+            else
+                return accountService.getByExternalId(employeeUuid);
+        });
     }
 
     @PostMapping
-    public ResponseEntity<AccountDto> create(@RequestBody UUID employeeUuid) {
-        Account account = accountService.create(employeeUuid);
+    public ResponseEntity<Mono<AccountDto>> create(@RequestBody UUID employeeUuid) {
+        Mono<Account> account = accountService.create(employeeUuid);
         return new ResponseEntity<>(accountMapper.toDto(account), HttpStatus.CREATED);
     }
 
