@@ -11,9 +11,17 @@ spring:
   liquibase:
     change-log: classpath:db/liquibaseConfig.yml
     liquibase-schema: ${SCHEMA}
+  kafka:
+    consumer:
+      bootstrap-servers: ${BOOTSTRAP_SERVERS}
+    topic: finance
 eureka:
   client:
     serviceUrl:
       defaultZone: ${EUREKA_SERVER_HOST}
   instance:
     prefer-ip-address: true
+logging:
+  level:
+    org.springframework: ${SPRING_LOG_LEVEL}
+    solvd.laba.ermakovich.hf: ${APP_LOG_LEVEL}

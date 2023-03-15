@@ -4,10 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import solvd.laba.ermakovich.hf.domain.Account;
-import solvd.laba.ermakovich.hf.domain.exception.ResourceAlreadyExistsException;
 import solvd.laba.ermakovich.hf.domain.exception.ResourceDoesNotExistException;
 import solvd.laba.ermakovich.hf.service.AccountService;
 import solvd.laba.ermakovich.hf.service.UserClient;
@@ -29,13 +27,15 @@ public class AccountController {
     private final AccountMapper accountMapper;
 
     @GetMapping
-    public Mono<Account> retrieveInfo(@RequestParam UUID employeeUuid) {
+    public Mono<AccountDto> retrieveInfo(@RequestParam UUID employeeUuid) {
         Mono<Boolean> isUserExist = userClient.isExistByExternalId(employeeUuid);
-            return isUserExist.flatMap(isExist -> {
+        return isUserExist.flatMap(isExist -> {
             if (Boolean.FALSE.equals(isExist))
                 throw new ResourceDoesNotExistException("user does not exist");
-            else
-                return accountService.getByExternalId(employeeUuid);
+            else {
+                Mono<Account> account = accountService.getByExternalId(employeeUuid);
+                return accountMapper.toDto(account);
+            }
         });
     }
 
