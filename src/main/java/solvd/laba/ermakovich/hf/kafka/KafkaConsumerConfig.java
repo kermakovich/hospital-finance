@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import reactor.kafka.receiver.KafkaReceiver;
 import reactor.kafka.receiver.ReceiverOptions;
+import solvd.laba.ermakovich.hf.parser.XmlXPath;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,13 +34,17 @@ public class KafkaConsumerConfig {
         kafkaPropertiesMap.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
                 bootstrapServers);
         kafkaPropertiesMap.put(ConsumerConfig.GROUP_ID_CONFIG,
-                XmlUtils.getValue(configPath, "groupId"));
+                new XmlXPath(configPath, "groupId")
+                        .getText());
         kafkaPropertiesMap.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
-                XmlUtils.getValue(configPath, "keyDeserializer"));
+                new XmlXPath(configPath, "keyDeserializer")
+                        .getText());
         kafkaPropertiesMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-                XmlUtils.getValue(configPath, "valueDeserializer"));
+                new XmlXPath(configPath, "valueDeserializer")
+                        .getText());
         kafkaPropertiesMap.put(TOPIC_KEY,
-                XmlUtils.getValue(configPath, TOPIC_KEY));
+                new XmlXPath(configPath, TOPIC_KEY)
+                        .getText());
         return kafkaPropertiesMap;
     }
 
