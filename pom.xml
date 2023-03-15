@@ -24,9 +24,7 @@
 		<liquibase.version>4.18.0</liquibase.version>
 		<spring-cloud.version>4.0.0</spring-cloud.version>
 		<kafka.version>1.3.16</kafka.version>
-		<spring.kafka.version>3.0.4</spring.kafka.version>
 		<slf4j.version>2.0.6</slf4j.version>
-		<kafka.clients.version>3.3.2</kafka.clients.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -110,16 +108,6 @@
 			<groupId>io.projectreactor.kafka</groupId>
 			<artifactId>reactor-kafka</artifactId>
 			<version>${kafka.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka</artifactId>
-			<version>${spring.kafka.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.kafka</groupId>
-			<artifactId>kafka-clients</artifactId>
-			<version>${kafka.clients.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
