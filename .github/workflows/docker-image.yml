@@ -23,7 +23,7 @@ jobs:
       - name: Build and push
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/hospital-users
+          image: ${{ secrets.DOCKERHUB_USERNAME }}/hospital-finance
           tags: latest
           dockerfile: Dockerfile
           registry: docker.io
