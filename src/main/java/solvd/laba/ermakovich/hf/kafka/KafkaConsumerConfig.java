@@ -23,14 +23,14 @@ import java.util.UUID;
 public class KafkaConsumerConfig {
 
     @Value("${spring.kafka.consumer.bootstrap-servers}")
-    private String BOOTSTRAP_SERVERS;
+    private String bootstrapServers;
 
     @Value("${spring.kafka.topic}")
-    private String TOPIC;
+    private String topic;
 
     protected Map<String, Object> kafkaConsumerProperties() {
         Map<String, Object> kafkaPropertiesMap = new HashMap<>(4);
-        kafkaPropertiesMap.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
+        kafkaPropertiesMap.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         kafkaPropertiesMap.put(ConsumerConfig.GROUP_ID_CONFIG, "groupId");
         kafkaPropertiesMap.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         kafkaPropertiesMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, UUIDDeserializer.class);
@@ -41,7 +41,7 @@ public class KafkaConsumerConfig {
     public ReceiverOptions<String, UUID> kafkaReceiverOptions() {
         ReceiverOptions<String, UUID> options = ReceiverOptions.create(kafkaConsumerProperties());
         return options.subscription(
-                        Collections.singletonList(TOPIC)
+                        Collections.singletonList(topic)
                 )
                 .addAssignListener(receiverPartitions -> log.debug("assign consumer {}", receiverPartitions))
                 .addRevokeListener(receiverPartitions -> log.debug("revoke consumer {}", receiverPartitions));
