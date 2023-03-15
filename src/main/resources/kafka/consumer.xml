@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<consumer>
+    <groupId>groupId</groupId>
+    <keyDeserializer>org.apache.kafka.common.serialization.StringDeserializer</keyDeserializer>
+    <valueDeserializer>org.apache.kafka.common.serialization.UUIDDeserializer</valueDeserializer>
+    <topic>finance</topic>
+</consumer>
