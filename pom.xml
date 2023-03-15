@@ -27,6 +27,7 @@
 		<spring.kafka.version>3.0.4</spring.kafka.version>
 		<slf4j.version>2.0.6</slf4j.version>
 		<kafka.clients.version>3.3.2</kafka.clients.version>
+		<jcabi.version>0.27.2</jcabi.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -112,19 +113,14 @@
 			<version>${kafka.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka</artifactId>
-			<version>${spring.kafka.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.kafka</groupId>
-			<artifactId>kafka-clients</artifactId>
-			<version>${kafka.clients.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jcabi</groupId>
+			<artifactId>jcabi-xml</artifactId>
+			<version>${jcabi.version}</version>
 		</dependency>
 	</dependencies>
 
