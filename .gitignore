@@ -13,3 +13,4 @@ mvnw.cmd
 *.iws
 *.iml
 *.ipr
+.env
