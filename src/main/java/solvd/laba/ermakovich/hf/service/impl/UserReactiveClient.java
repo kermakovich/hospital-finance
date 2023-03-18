@@ -16,7 +16,7 @@ import java.util.UUID;
 public class UserReactiveClient implements UserClient {
 
     private final WebClient.Builder webClient;
-    private static final String HOSPITAL_USERS_URL = "http://hospital-users:8081";
+    private static final String HOSPITAL_USERS_URL = "http://hospital-users-service:8081";
 
     @Override
     public Mono<Boolean> isExistByExternalId(UUID employeeUuid) {
