@@ -1,11 +1,13 @@
 package solvd.laba.ermakovich.hf.kafka;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.kafka.core.KafkaAdmin;
 import reactor.kafka.receiver.KafkaReceiver;
 import reactor.kafka.receiver.ReceiverOptions;
@@ -21,6 +23,7 @@ import java.util.UUID;
  */
 @Slf4j
 @Configuration
+@RequiredArgsConstructor
 public class KafkaConsumerConfig {
 
     @Value("${spring.kafka.consumer.bootstrap-servers}")
@@ -29,6 +32,8 @@ public class KafkaConsumerConfig {
     @Value("${spring.kafka.consumer.config-file}")
     private String configPath;
 
+    private final ResourceLoader resourceLoader;
+
     private static final String TOPIC_KEY = "topic";
 
     protected Map<String, Object> kafkaConsumerProperties() {
@@ -36,16 +41,16 @@ public class KafkaConsumerConfig {
         kafkaPropertiesMap.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
                 bootstrapServers);
         kafkaPropertiesMap.put(ConsumerConfig.GROUP_ID_CONFIG,
-                new XmlXPath(configPath, "groupId")
+                new XmlXPath(configPath, "groupId", resourceLoader)
                         .getText());
         kafkaPropertiesMap.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
-                new XmlXPath(configPath, "keyDeserializer")
+                new XmlXPath(configPath, "keyDeserializer", resourceLoader)
                         .getText());
         kafkaPropertiesMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-                new XmlXPath(configPath, "valueDeserializer")
+                new XmlXPath(configPath, "valueDeserializer", resourceLoader)
                         .getText());
         kafkaPropertiesMap.put(TOPIC_KEY,
-                new XmlXPath(configPath, TOPIC_KEY)
+                new XmlXPath(configPath, TOPIC_KEY, resourceLoader)
                         .getText());
         return kafkaPropertiesMap;
     }
