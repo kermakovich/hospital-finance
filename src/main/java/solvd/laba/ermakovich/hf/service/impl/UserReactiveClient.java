@@ -1,7 +1,6 @@
 package solvd.laba.ermakovich.hf.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -17,7 +16,7 @@ import java.util.UUID;
 public class UserReactiveClient implements UserClient {
 
     private final WebClient.Builder webClient;
-    private static final String HOSPITAL_USERS_URL = "http://HOSPITAL-USERS";
+    private static final String HOSPITAL_USERS_URL = "http://hospital-users:8081";
 
     @Override
     public Mono<Boolean> isExistByExternalId(UUID employeeUuid) {

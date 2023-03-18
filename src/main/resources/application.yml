@@ -8,19 +8,13 @@ spring:
     username: ${DATASOURCE_USERNAME}
     password: ${DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
-  liquibase:
-    change-log: classpath:db/liquibaseConfig.yml
-    liquibase-schema: ${SCHEMA}
+  sql:
+    init:
+      mode: always
   kafka:
     consumer:
       bootstrap-servers: ${BOOTSTRAP_SERVERS}
       config-file: classpath:kafka/consumer.xml
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${EUREKA_SERVER_HOST}
-  instance:
-    prefer-ip-address: true
 logging:
   level:
     root: ${ROOT_LOG_LEVEL}
