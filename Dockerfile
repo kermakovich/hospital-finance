@@ -1,6 +1,7 @@
 FROM maven:3.9.0-eclipse-temurin-17 AS build
 COPY src /home/app/src
 COPY pom.xml /home/app
+ENV CLASSPATH=/home/app/src/main/resources
 RUN mvn -f /home/app/pom.xml clean package
 
 FROM eclipse-temurin:17
