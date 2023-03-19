@@ -19,3 +19,5 @@ logging:
   level:
     root: ${ROOT_LOG_LEVEL}
     solvd.laba.ermakovich.hf: ${APP_LOG_LEVEL}
+hospital-users:
+  name: ${HOSPITAL_USERS_HOST}
