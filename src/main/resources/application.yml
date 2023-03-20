@@ -8,9 +8,12 @@ spring:
     username: ${DATASOURCE_USERNAME}
     password: ${DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
-  sql:
-    init:
-      mode: always
+  liquibase:
+    url: jdbc:postgresql://${DATASOURCE_HOST}/postgres?currentSchema=${SCHEMA}
+    user: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+    change-log: classpath:db/liquibaseConfig.yml
+    liquibase-schema: ${SCHEMA}
   kafka:
     consumer:
       bootstrap-servers: ${BOOTSTRAP_SERVERS}

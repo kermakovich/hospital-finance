@@ -25,7 +25,8 @@
 		<jcabi.version>0.27.2</jcabi.version>
 		<kafka.clients.version>3.3.2</kafka.clients.version>
 		<spring.kafka.version>3.0.4</spring.kafka.version>
-
+		<liquibase.version>4.20.0</liquibase.version>
+		<preliquibase.version>1.3.0</preliquibase.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -38,6 +39,16 @@
 			<artifactId>postgresql</artifactId>
 			<version>${postgres.version}</version>
 			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>${liquibase.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.lbruun.springboot</groupId>
+			<artifactId>preliquibase-spring-boot-starter</artifactId>
+			<version>${preliquibase.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -120,6 +131,7 @@
 			<artifactId>spring-cloud-starter-loadbalancer</artifactId>
 			<version>${spring-cloud.version}</version>
 		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>
