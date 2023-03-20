@@ -1,6 +1,8 @@
 --liquibase formatted sql
 --changeset ermakovich:1
 
+create schema if not exists finance;
+set schema 'finance';
 
 CREATE TABLE IF NOT EXISTS finance.accounts
 (

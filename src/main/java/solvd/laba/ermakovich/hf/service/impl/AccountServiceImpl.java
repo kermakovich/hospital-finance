@@ -10,9 +10,7 @@ import solvd.laba.ermakovich.hf.repository.AccountRepository;
 import solvd.laba.ermakovich.hf.domain.Account;
 import solvd.laba.ermakovich.hf.service.AccountService;
 
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Random;
 import java.util.UUID;
 
 /**

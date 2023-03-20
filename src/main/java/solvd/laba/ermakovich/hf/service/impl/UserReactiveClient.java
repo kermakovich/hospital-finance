@@ -1,7 +1,7 @@
 package solvd.laba.ermakovich.hf.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -17,13 +17,15 @@ import java.util.UUID;
 public class UserReactiveClient implements UserClient {
 
     private final WebClient.Builder webClient;
-    private static final String HOSPITAL_USERS_URL = "http://HOSPITAL-USERS";
+
+    @Value("${hospital-users.name}")
+    private String hospitalUsersHost;
 
     @Override
     public Mono<Boolean> isExistByExternalId(UUID employeeUuid) {
        return webClient.build()
                 .get()
-                .uri(HOSPITAL_USERS_URL + "/api/v1/users?externalId=" + employeeUuid)
+                .uri("http://" + hospitalUsersHost + "/api/v1/users?externalId=" + employeeUuid)
                 .retrieve()
                 .bodyToMono(Boolean.class);
     }
