@@ -3,17 +3,14 @@ server:
 spring:
   application:
     name: hospital-finance
-  r2dbc:
-    url: r2dbc:postgresql://${DATASOURCE_HOST}/postgres?currentSchema=${SCHEMA}
-    username: ${DATASOURCE_USERNAME}
-    password: ${DATASOURCE_PASSWORD}
-    driver-class-name: org.postgresql.Driver
-  liquibase:
-    url: jdbc:postgresql://${DATASOURCE_HOST}/postgres?currentSchema=${SCHEMA}
-    user: ${DATASOURCE_USERNAME}
-    password: ${DATASOURCE_PASSWORD}
-    change-log: classpath:db/liquibaseConfig.yml
-    liquibase-schema: ${SCHEMA}
+  data:
+    mongodb:
+      authentication-database: admin
+      username: ${MONGO_USERNAME}
+      password: ${MONGO_PASSWORD}
+      database: ${MONGO_DB}
+      port: ${MONGO_PORT}
+      host: ${MONGO_HOST}
   kafka:
     consumer:
       bootstrap-servers: ${BOOTSTRAP_SERVERS}
