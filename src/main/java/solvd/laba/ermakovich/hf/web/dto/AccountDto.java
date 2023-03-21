@@ -19,7 +19,7 @@ import java.util.UUID;
 public class AccountDto {
 
     @JsonIgnore
-    private Long id;
+    private String id;
     private UUID externalId;
     private String accountNumber;
     private BigDecimal balance;

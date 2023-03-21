@@ -3,7 +3,8 @@ package solvd.laba.ermakovich.hf.domain;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -11,13 +12,15 @@ import java.util.UUID;
 /**
  * @author Ermakovich Kseniya
  */
-@Table(name = "accounts")
 @Data
 @NoArgsConstructor
+@Document
 public class Account {
 
     @Id
-    private Long id;
+    private String id;
+
+    @Indexed
     private UUID externalId;
     private String accountNumber;
     private BigDecimal balance;
