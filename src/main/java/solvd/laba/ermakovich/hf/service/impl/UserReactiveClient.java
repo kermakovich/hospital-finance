@@ -23,7 +23,7 @@ public class UserReactiveClient implements UserClient {
 
     @Override
     public Mono<Boolean> isExistByExternalId(UUID employeeUuid) {
-       return webClient.build()
+        return webClient.build()
                 .get()
                 .uri("http://" + hospitalUsersHost + "/api/v1/users?externalId=" + employeeUuid)
                 .retrieve()

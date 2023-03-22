@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import solvd.laba.ermakovich.hf.domain.exception.IllegalOperationException;
 import solvd.laba.ermakovich.hf.domain.exception.ResourceAlreadyExistsException;
 import solvd.laba.ermakovich.hf.domain.exception.ResourceDoesNotExistException;
 import solvd.laba.ermakovich.hf.web.dto.ErrorDto;
@@ -22,9 +23,9 @@ public class GlobalExceptionHandler {
         return new ErrorDto(ex.getMessage());
     }
 
-    @ExceptionHandler(ResourceAlreadyExistsException.class)
+    @ExceptionHandler({ResourceAlreadyExistsException.class, IllegalOperationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorDto handleResourceAlreadyExistsException(ResourceAlreadyExistsException ex) {
+    public ErrorDto badRequestException(RuntimeException ex) {
         return new ErrorDto(ex.getMessage());
     }
 }
