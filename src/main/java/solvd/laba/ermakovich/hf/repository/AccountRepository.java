@@ -15,4 +15,6 @@ public interface AccountRepository extends ReactiveMongoRepository<Account, Stri
 
     Mono<Account> findByExternalId(UUID employeeId);
 
+    Mono<Account> findByAccountNumber(String accountNumber);
+
 }

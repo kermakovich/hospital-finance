@@ -19,7 +19,6 @@ public class XmlXPath {
     private final ResourceLoader resourceLoader;
 
 
-
     @SneakyThrows
     public String getText() {
         return new XMLDocument(

@@ -14,4 +14,8 @@ public interface AccountService {
 
     Mono<Account> create(UUID employeeUuid);
 
+    Mono<Account> update(Account account);
+
+    Mono<Account> getByAccountNumber(String accountNumber);
+
 }

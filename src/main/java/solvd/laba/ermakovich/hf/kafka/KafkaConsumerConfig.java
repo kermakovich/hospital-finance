@@ -26,15 +26,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class KafkaConsumerConfig {
 
+    private static final String TOPIC_KEY = "topic";
+    private final ResourceLoader resourceLoader;
+
     @Value("${spring.kafka.consumer.bootstrap-servers}")
     private String bootstrapServers;
 
     @Value("${spring.kafka.consumer.config-file}")
     private String configPath;
-
-    private final ResourceLoader resourceLoader;
-
-    private static final String TOPIC_KEY = "topic";
 
     protected Map<String, Object> kafkaConsumerProperties() {
         Map<String, Object> kafkaPropertiesMap = new HashMap<>(4);
