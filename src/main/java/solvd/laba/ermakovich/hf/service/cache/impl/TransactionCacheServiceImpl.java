@@ -19,8 +19,6 @@ import solvd.laba.ermakovich.hf.service.cache.TransactionCacheService;
 @Service
 public class TransactionCacheServiceImpl implements TransactionCacheService {
 
-    private static final int DEFAULT_PAGE_SIZE = 10;
-    private static final String DEFAULT_SORTING = "createdTime";
     private final TransactionRepository transactionRepository;
     private final ReactiveHashOperations<String, String, Transactions> cache;
 
@@ -42,21 +40,22 @@ public class TransactionCacheServiceImpl implements TransactionCacheService {
 
 
     @Override
-    public Mono<Transactions> putRecent(String accountNumber) {
+    public Mono<Boolean> putRecent(String accountNumber) {
+        final int defaultPageSize = 10;
+        final String defaultSorting = "createdTime";
         return transactionRepository
                 .findTopNByAccountNumber(accountNumber,
                         PageRequest.of(0,
-                                DEFAULT_PAGE_SIZE,
-                                Sort.by(DEFAULT_SORTING)
+                                defaultPageSize,
+                                Sort.by(defaultSorting)
                                         .descending()))
                 .collectList()
-                .doOnSuccess(transactionList ->
-                    this.cache.put(
-                                    "transactions",
-                                    accountNumber,
-                                    new Transactions(transactionList))
-                            .subscribeOn(Schedulers.boundedElastic()))
-                .map(Transactions::new);
+                .flatMap(transactionList ->
+                        this.cache.put(
+                                        "transactions",
+                                        accountNumber,
+                                        new Transactions(transactionList))
+                                .subscribeOn(Schedulers.boundedElastic()));
     }
 
 }

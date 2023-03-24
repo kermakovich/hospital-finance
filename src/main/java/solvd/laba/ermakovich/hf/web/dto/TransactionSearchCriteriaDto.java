@@ -7,7 +7,7 @@ import lombok.Data;
  * @author Ermakovich Kseniya
  */
 @Data
-public class TransactionSearchCriteria {
+public class TransactionSearchCriteriaDto {
 
     @Nonnull
     private String accountNumber;

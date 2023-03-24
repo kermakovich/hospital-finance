@@ -6,11 +6,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import solvd.laba.ermakovich.hf.domain.TransactionSearchCriteria;
 import solvd.laba.ermakovich.hf.domain.Transaction;
 import solvd.laba.ermakovich.hf.service.TransactionService;
 import solvd.laba.ermakovich.hf.service.cache.TransactionCacheService;
 import solvd.laba.ermakovich.hf.web.dto.TransactionDto;
-import solvd.laba.ermakovich.hf.web.dto.TransactionSearchCriteria;
+import solvd.laba.ermakovich.hf.web.dto.TransactionSearchCriteriaDto;
+import solvd.laba.ermakovich.hf.web.mapper.TransactionCriteriaMapper;
 import solvd.laba.ermakovich.hf.web.mapper.TransactionMapper;
 
 /**
@@ -24,17 +26,19 @@ public class TransactionController {
     private final TransactionService transactionService;
     private final TransactionCacheService transactionCacheService;
     private final TransactionMapper transactionMapper;
+    private final TransactionCriteriaMapper transactionCriteriaMapper;
 
     @GetMapping
-    public Flux<TransactionDto> retrieveInfo(TransactionSearchCriteria criteria) {
+    public Flux<TransactionDto> retrieveInfo(TransactionSearchCriteriaDto criteria) {
+        TransactionSearchCriteria transactionCriteria = transactionCriteriaMapper.toEntity(criteria);
         Flux<Transaction> transactions;
         if (criteria.hasDefaultSettings()) {
             transactions = transactionCacheService.getRecent(criteria.getAccountNumber());
         } else {
             transactions = transactionService.getByAccountNumberAndPageable(criteria.getAccountNumber(),
-                    PageRequest.of(criteria.getPage(),
-                            criteria.getSize(),
-                            Sort.by(criteria.getSort()).descending()));
+                    PageRequest.of(transactionCriteria.getPage(),
+                            transactionCriteria.getSize(),
+                            Sort.by(transactionCriteria.getSort()).descending()));
         }
         return transactionMapper.toDto(transactions);
     }
