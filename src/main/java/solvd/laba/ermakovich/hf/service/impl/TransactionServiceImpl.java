@@ -27,7 +27,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 
     @Override
-    public Flux<Transaction> getRecent(String accountNumber, PageRequest pageable) {
+    public Flux<Transaction> getByAccountNumberAndPageable(String accountNumber, PageRequest pageable) {
         return transactionRepository.findTopNByAccountNumber(accountNumber, pageable);
     }
 

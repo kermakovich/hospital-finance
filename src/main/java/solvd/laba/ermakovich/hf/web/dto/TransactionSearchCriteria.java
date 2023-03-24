@@ -15,4 +15,8 @@ public class TransactionSearchCriteria {
     private int size = 10;
     private String sort = "createdTime";
 
+    public boolean hasDefaultSettings() {
+        return 0 == page && 10 == size && "createdTime".equals(sort);
+    }
+
 }
