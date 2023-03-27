@@ -11,9 +11,8 @@ import solvd.laba.ermakovich.hf.domain.Transaction;
  */
 public interface TransactionService {
 
-    Flux<Transaction> getRecent(String accountNumber, PageRequest pageable);
+    Flux<Transaction> getByAccountNumberAndPageable(String accountNumber, PageRequest pageable);
 
     Mono<Transaction> create(Transaction transaction);
-
 
 }
