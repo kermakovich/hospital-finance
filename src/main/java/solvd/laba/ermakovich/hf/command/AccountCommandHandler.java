@@ -6,8 +6,8 @@ import reactor.core.publisher.Mono;
 import solvd.laba.ermakovich.hf.domain.Account;
 import solvd.laba.ermakovich.hf.domain.exception.ResourceAlreadyExistsException;
 import solvd.laba.ermakovich.hf.event.account.AccountEventService;
-import solvd.laba.ermakovich.hf.event.account.CreateAccountEventRoot;
-import solvd.laba.ermakovich.hf.event.account.DeleteAccountEventRoot;
+import solvd.laba.ermakovich.hf.event.account.CreateAccount;
+import solvd.laba.ermakovich.hf.event.account.DeleteAccount;
 import solvd.laba.ermakovich.hf.event.EventRoot;
 import solvd.laba.ermakovich.hf.query.AccountQueryService;
 
@@ -29,7 +29,7 @@ public class AccountCommandHandler implements AccountCommandService {
                         Account account = Account.builder()
                                 .userId(command.getUserId())
                                 .build();
-                        EventRoot eventRoot = new CreateAccountEventRoot(account, command.getAggregateId());
+                        EventRoot eventRoot = new CreateAccount(account, command.getAggregateId());
                         return eventService.when(eventRoot);
                     } else
                         throw new ResourceAlreadyExistsException("this employee already has account");
@@ -38,7 +38,7 @@ public class AccountCommandHandler implements AccountCommandService {
 
     @Override
     public Mono<Void> handle(DeleteAccountCommand command) {
-        DeleteAccountEventRoot event = new DeleteAccountEventRoot(command.getAggregateId());
+        DeleteAccount event = new DeleteAccount(command.getAggregateId());
         return eventService.when(event);
     }
 

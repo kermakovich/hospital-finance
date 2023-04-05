@@ -6,8 +6,8 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 import solvd.laba.ermakovich.hf.domain.Account;
 import solvd.laba.ermakovich.hf.domain.exception.IllegalOperationException;
-import solvd.laba.ermakovich.hf.event.account.CreateAccountEventRoot;
-import solvd.laba.ermakovich.hf.event.account.DeleteAccountEventRoot;
+import solvd.laba.ermakovich.hf.event.account.CreateAccount;
+import solvd.laba.ermakovich.hf.event.account.DeleteAccount;
 import solvd.laba.ermakovich.hf.event.EventRoot;
 import solvd.laba.ermakovich.hf.event.IntegrationEvent;
 
@@ -20,11 +20,11 @@ public class KafkaMessageMapper implements MessageMapper<EventRoot, IntegrationE
     @SneakyThrows
     public EventRoot toEvent(IntegrationEvent integrationEvent) {
         return switch (integrationEvent.getEventType()) {
-            case CreateAccountEventRoot.EVENT_TYPE -> {
+            case CreateAccount.EVENT_TYPE -> {
                 Account account = Account.builder()
                         .userId(UUID.fromString(integrationEvent.getPayload()))
                         .build();
-                yield CreateAccountEventRoot.builder()
+                yield CreateAccount.builder()
                         .id(UUID.randomUUID().toString())
                         .account(account)
                         .aggregateId(UUID.randomUUID().toString())
@@ -32,7 +32,7 @@ public class KafkaMessageMapper implements MessageMapper<EventRoot, IntegrationE
                         .timeStamp(LocalDateTime.now())
                         .build();
             }
-            case DeleteAccountEventRoot.EVENT_TYPE -> DeleteAccountEventRoot.builder()
+            case DeleteAccount.EVENT_TYPE -> DeleteAccount.builder()
                     .id(UUID.randomUUID().toString())
                     .aggregateId(integrationEvent.getPayload())
                     .eventType(integrationEvent.getEventType())

@@ -17,18 +17,18 @@ import solvd.laba.ermakovich.hf.event.EventRoot;
  */
 @Data
 @SuperBuilder
-public class CreateAccountEventRoot extends EventRoot implements Event {
+public class CreateAccount extends EventRoot implements Event {
 
     public static final String EVENT_TYPE = "CreateAccount";
 
     @Transient
     private Account account;
 
-    public CreateAccountEventRoot(String aggregateId) {
+    public CreateAccount(String aggregateId) {
         super(EVENT_TYPE, aggregateId);
     }
 
-    public CreateAccountEventRoot(Account account, String aggregateId) {
+    public CreateAccount(Account account, String aggregateId) {
         this(aggregateId);
         this.account = account;
     }

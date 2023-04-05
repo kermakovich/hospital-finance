@@ -7,11 +7,11 @@ import solvd.laba.ermakovich.hf.event.EventRoot;
  * @author Ermakovich Kseniya
  */
 @SuperBuilder
-public class DeleteAccountEventRoot extends EventRoot {
+public class DeleteAccount extends EventRoot {
 
     public static final String EVENT_TYPE = "DeleteAccount";
 
-    public DeleteAccountEventRoot(String aggregateId) {
+    public DeleteAccount(String aggregateId) {
         super(EVENT_TYPE, aggregateId);
     }
 

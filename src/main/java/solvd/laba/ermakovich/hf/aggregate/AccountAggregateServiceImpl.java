@@ -3,7 +3,7 @@ package solvd.laba.ermakovich.hf.aggregate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-import solvd.laba.ermakovich.hf.event.account.DeleteAccountEventRoot;
+import solvd.laba.ermakovich.hf.event.account.DeleteAccount;
 import solvd.laba.ermakovich.hf.event.Event;
 import solvd.laba.ermakovich.hf.event.EventRoot;
 import solvd.laba.ermakovich.hf.mongo.AccountRepository;
@@ -21,7 +21,7 @@ public class AccountAggregateServiceImpl implements AccountAggregateService {
 
     @Override
     public Mono<Void> apply(EventRoot eventRoot) {
-        if (DeleteAccountEventRoot.EVENT_TYPE.equals(eventRoot.getEventType())) {
+        if (DeleteAccount.EVENT_TYPE.equals(eventRoot.getEventType())) {
             return accountQueryService.findById(eventRoot.getAggregateId())
                     .flatMap(accountAggregate ->
                             accountRepository.deleteById(eventRoot.getAggregateId())
