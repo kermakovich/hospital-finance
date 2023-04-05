@@ -1,5 +1,8 @@
 package solvd.laba.ermakovich.hf.kafka;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.AdminClientConfig;
@@ -9,14 +12,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.kafka.core.KafkaAdmin;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
 import reactor.kafka.receiver.KafkaReceiver;
 import reactor.kafka.receiver.ReceiverOptions;
+import solvd.laba.ermakovich.hf.event.IntegrationEvent;
 import solvd.laba.ermakovich.hf.parser.XmlXPath;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * @author Ermakovich Kseniya
@@ -36,7 +36,7 @@ public class KafkaConsumerConfig {
     private String configPath;
 
     protected Map<String, Object> kafkaConsumerProperties() {
-        Map<String, Object> kafkaPropertiesMap = new HashMap<>(4);
+        Map<String, Object> kafkaPropertiesMap = new HashMap<>(7);
         kafkaPropertiesMap.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
                 bootstrapServers);
         kafkaPropertiesMap.put(ConsumerConfig.GROUP_ID_CONFIG,
@@ -47,6 +47,12 @@ public class KafkaConsumerConfig {
                         .getText());
         kafkaPropertiesMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
                 new XmlXPath(configPath, "valueDeserializer", resourceLoader)
+                        .getText());
+        kafkaPropertiesMap.put(JsonDeserializer.USE_TYPE_INFO_HEADERS,
+                new XmlXPath(configPath, "useTypeInfoHeaders", resourceLoader)
+                        .getText());
+        kafkaPropertiesMap.put(JsonDeserializer.VALUE_DEFAULT_TYPE,
+                new XmlXPath(configPath, "valueDefaultType", resourceLoader)
                         .getText());
         kafkaPropertiesMap.put(TOPIC_KEY,
                 new XmlXPath(configPath, TOPIC_KEY, resourceLoader)
@@ -62,9 +68,9 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ReceiverOptions<String, UUID> kafkaReceiverOptions() {
+    public ReceiverOptions<String, IntegrationEvent> kafkaReceiverOptions() {
         var properties = kafkaConsumerProperties();
-        ReceiverOptions<String, UUID> options = ReceiverOptions.create(properties);
+        ReceiverOptions<String, IntegrationEvent> options = ReceiverOptions.create(properties);
         return options.subscription(
                         (Collections.singletonList(
                                 (String) properties.get(TOPIC_KEY)
@@ -75,7 +81,7 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    KafkaReceiver<String, UUID> kafkaReceiver() {
+    public KafkaReceiver<String, IntegrationEvent> kafkaReceiver() {
         return KafkaReceiver.create(kafkaReceiverOptions());
     }
 

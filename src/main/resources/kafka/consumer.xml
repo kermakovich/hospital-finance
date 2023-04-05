@@ -2,6 +2,8 @@
 <consumer>
     <groupId>groupId</groupId>
     <keyDeserializer>org.apache.kafka.common.serialization.StringDeserializer</keyDeserializer>
-    <valueDeserializer>org.apache.kafka.common.serialization.UUIDDeserializer</valueDeserializer>
+    <valueDeserializer>org.springframework.kafka.support.serializer.JsonDeserializer</valueDeserializer>
     <topic>finance</topic>
+    <useTypeInfoHeaders>false</useTypeInfoHeaders>
+    <valueDefaultType>solvd.laba.ermakovich.hf.event.IntegrationEvent</valueDefaultType>
 </consumer>
