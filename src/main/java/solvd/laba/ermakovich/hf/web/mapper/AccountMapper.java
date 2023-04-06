@@ -2,8 +2,8 @@ package solvd.laba.ermakovich.hf.web.mapper;
 
 import org.mapstruct.Mapper;
 import reactor.core.publisher.Mono;
-import solvd.laba.ermakovich.hf.domain.Account;
-import solvd.laba.ermakovich.hf.web.dto.AccountDto;
+import solvd.laba.ermakovich.hf.aggregate.AccountAggregate;
+import solvd.laba.ermakovich.hf.web.dto.AccountAggregateDto;
 
 /**
  * @author Ermakovich Kseniya
@@ -11,9 +11,9 @@ import solvd.laba.ermakovich.hf.web.dto.AccountDto;
 @Mapper(componentModel = "spring")
 public interface AccountMapper {
 
-    AccountDto toDto(Account account);
+    AccountAggregateDto toDto(AccountAggregate account);
 
-    default Mono<AccountDto> toDto(Mono<Account> account) {
+    default Mono<AccountAggregateDto> toDto(Mono<AccountAggregate> account) {
         return account.map(this::toDto);
     }
 

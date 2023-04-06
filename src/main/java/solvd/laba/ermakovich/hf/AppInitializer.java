@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRep
 
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-@EnableReactiveMongoRepositories(basePackages = "solvd.laba.ermakovich.hf.repository")
+@EnableReactiveMongoRepositories(basePackages = "solvd.laba.ermakovich.hf.mongo")
 public class AppInitializer {
 
     public static void main(String[] args) {

@@ -1,18 +1,20 @@
 package solvd.laba.ermakovich.hf.web.controller;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
-import solvd.laba.ermakovich.hf.domain.Account;
-import solvd.laba.ermakovich.hf.domain.exception.ResourceDoesNotExistException;
-import solvd.laba.ermakovich.hf.service.AccountService;
-import solvd.laba.ermakovich.hf.service.UserClient;
-import solvd.laba.ermakovich.hf.web.dto.AccountDto;
-import solvd.laba.ermakovich.hf.web.mapper.AccountMapper;
-
 import java.util.UUID;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
+import solvd.laba.ermakovich.hf.aggregate.AccountAggregate;
+import solvd.laba.ermakovich.hf.command.AccountCommandService;
+import solvd.laba.ermakovich.hf.command.CreateAccountCommand;
+import solvd.laba.ermakovich.hf.query.AccountQueryService;
+import solvd.laba.ermakovich.hf.web.dto.AccountAggregateDto;
+import solvd.laba.ermakovich.hf.web.mapper.AccountMapper;
 
 /**
  * @author Ermakovich Kseniya
@@ -22,27 +24,20 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AccountController {
 
-    private final AccountService accountService;
-    private final UserClient userClient;
+    private final AccountCommandService commandService;
+    private final AccountQueryService queryService;
     private final AccountMapper accountMapper;
 
     @GetMapping
-    public Mono<AccountDto> retrieveInfo(@RequestParam UUID employeeUuid) {
-        Mono<Boolean> isUserExist = userClient.isExistByExternalId(employeeUuid);
-        return isUserExist.flatMap(isExist -> {
-            if (Boolean.FALSE.equals(isExist))
-                throw new ResourceDoesNotExistException("user does not exist");
-            else {
-                Mono<Account> account = accountService.getByExternalId(employeeUuid);
-                return accountMapper.toDto(account);
-            }
-        });
+    public Mono<AccountAggregateDto> retrieveInfo(@RequestParam UUID employeeUuid) {
+        Mono<AccountAggregate> account = queryService.getByUserId(employeeUuid);
+        return accountMapper.toDto(account);
     }
 
     @PostMapping
-    public ResponseEntity<Mono<AccountDto>> create(@RequestBody UUID employeeUuid) {
-        Mono<Account> account = accountService.create(employeeUuid);
-        return new ResponseEntity<>(accountMapper.toDto(account), HttpStatus.CREATED);
+    public Mono<Void> create(@RequestBody UUID employeeUuid) {
+        CreateAccountCommand command = new CreateAccountCommand(employeeUuid);
+        return commandService.handle(command);
     }
 
 }
