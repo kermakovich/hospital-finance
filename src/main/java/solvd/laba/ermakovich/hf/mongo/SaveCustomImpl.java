@@ -15,6 +15,7 @@ public class SaveCustomImpl implements SaveCustom<EventRoot> {
 
     private final ReactiveMongoTemplate reactiveMongoTemplate;
 
+    @Override
     public Mono<EventRoot> save(EventRoot eventRoot) {
         final String payload = eventRoot.getPayload();
         eventRoot.setPayload(payload);

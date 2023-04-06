@@ -1,22 +1,24 @@
 package solvd.laba.ermakovich.hf.kafka;
 
+import com.jcabi.xml.XMLDocument;
+import io.github.eocqrs.kafka.xml.TextXpath;
+import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import reactor.kafka.receiver.KafkaReceiver;
 import reactor.kafka.receiver.ReceiverOptions;
 import solvd.laba.ermakovich.hf.event.IntegrationEvent;
-import solvd.laba.ermakovich.hf.parser.XmlXPath;
 
 /**
  * @author Ermakovich Kseniya
@@ -26,8 +28,7 @@ import solvd.laba.ermakovich.hf.parser.XmlXPath;
 @RequiredArgsConstructor
 public class KafkaConsumerConfig {
 
-    private static final String TOPIC_KEY = "topic";
-    private final ResourceLoader resourceLoader;
+    private static final String TOPIC_KEY = "//topic";
 
     @Value("${spring.kafka.consumer.bootstrap-servers}")
     private String bootstrapServers;
@@ -35,28 +36,42 @@ public class KafkaConsumerConfig {
     @Value("${spring.kafka.consumer.config-file}")
     private String configPath;
 
+    @SneakyThrows
     protected Map<String, Object> kafkaConsumerProperties() {
         Map<String, Object> kafkaPropertiesMap = new HashMap<>(7);
         kafkaPropertiesMap.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
                 bootstrapServers);
+        var file = new XMLDocument(new File(configPath));
         kafkaPropertiesMap.put(ConsumerConfig.GROUP_ID_CONFIG,
-                new XmlXPath(configPath, "groupId", resourceLoader)
-                        .getText());
+                new TextXpath(
+                        file,
+                        "//groupId"
+                ).toString());
         kafkaPropertiesMap.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
-                new XmlXPath(configPath, "keyDeserializer", resourceLoader)
-                        .getText());
+                new TextXpath(
+                        file,
+                        "//keyDeserializer"
+                ).toString());
         kafkaPropertiesMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-                new XmlXPath(configPath, "valueDeserializer", resourceLoader)
-                        .getText());
+                new TextXpath(
+                        file,
+                        "//valueDeserializer"
+                ).toString());
         kafkaPropertiesMap.put(JsonDeserializer.USE_TYPE_INFO_HEADERS,
-                new XmlXPath(configPath, "useTypeInfoHeaders", resourceLoader)
-                        .getText());
+                new TextXpath(
+                        file,
+                        "//useTypeInfoHeaders"
+                ).toString());
         kafkaPropertiesMap.put(JsonDeserializer.VALUE_DEFAULT_TYPE,
-                new XmlXPath(configPath, "valueDefaultType", resourceLoader)
-                        .getText());
+                new TextXpath(
+                        file,
+                        "//valueDefaultType"
+                ).toString());
         kafkaPropertiesMap.put(TOPIC_KEY,
-                new XmlXPath(configPath, TOPIC_KEY, resourceLoader)
-                        .getText());
+                new TextXpath(
+                        file,
+                        TOPIC_KEY
+                ).toString());
         return kafkaPropertiesMap;
     }
 

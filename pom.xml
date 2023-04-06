@@ -23,6 +23,7 @@
 		<jcabi.version>0.27.2</jcabi.version>
 		<kafka.clients.version>3.3.2</kafka.clients.version>
 		<spring.kafka.version>3.0.4</spring.kafka.version>
+		<eo-kafka.version>0.0.2</eo-kafka.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -115,6 +116,11 @@
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
 			<version>${fasterxml.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.github.eo-cqrs</groupId>
+			<artifactId>eo-kafka</artifactId>
+			<version>${eo-kafka.version}</version>
 		</dependency>
 	</dependencies>
 	<build>
