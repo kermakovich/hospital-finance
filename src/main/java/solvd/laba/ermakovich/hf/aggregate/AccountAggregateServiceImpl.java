@@ -2,7 +2,6 @@ package solvd.laba.ermakovich.hf.aggregate;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
 import solvd.laba.ermakovich.hf.event.Event;
 import solvd.laba.ermakovich.hf.event.account.CreateAccount;
 import solvd.laba.ermakovich.hf.event.account.DeleteAccount;
@@ -20,18 +19,18 @@ public class AccountAggregateServiceImpl implements AccountAggregateService {
     private final AccountRepository accountRepository;
 
     @Override
-    public Mono<Void> apply(CreateAccount event) {
-        return accountQueryService.findByIdOrCreate(event.getAggregateId())
+    public void apply(CreateAccount event) {
+        accountQueryService.findByIdOrCreate(event.getAggregateId())
                 .flatMap(aggregate -> {
                     ((Event)event).copyTo(aggregate);
-                    accountRepository.save(aggregate).subscribe();
-                    return Mono.empty();
-                });
+                    return accountRepository.save(aggregate);
+                })
+                .subscribe();
     }
 
     @Override
-    public Mono<Void> apply(DeleteAccount eventRoot) {
-            return accountQueryService.findById(eventRoot.getAggregateId())
+    public void apply(DeleteAccount eventRoot) {
+             accountQueryService.findById(eventRoot.getAggregateId())
                     .flatMap(accountAggregate ->
                             accountRepository.deleteById(eventRoot.getAggregateId())
                     );

@@ -38,11 +38,11 @@ public class AccountEventHandler implements AccountEventService {
                     EventRoot eventRoot;
                     if (Boolean.TRUE.equals(isExist)) {
                         eventRoot = new CreateAccountResponseFactory()
-                                .getFailedEvent(event);
+                                .failed(event);
                     } else {
-                        accountAggregateService.apply(event).subscribe();
+                        accountAggregateService.apply(event);
                         eventRoot = new CreateAccountResponseFactory()
-                                .getSucceedEvent(event);
+                                .success(event);
                     }
                     saveCustom.save(eventRoot);
                     return Mono.just(eventRoot);

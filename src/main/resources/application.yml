@@ -16,7 +16,7 @@ spring:
     consumer:
       config-file: src/main/resources/kafka/consumer.xml
     producer:
-      topic: saga
+      topic: account_events
 logging:
   level:
     root: ${ROOT_LOG_LEVEL}

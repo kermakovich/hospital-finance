@@ -8,7 +8,7 @@ import solvd.laba.ermakovich.hf.event.EventRoot;
  */
 public class CreateAccountResponseFactory {
 
-    public EventRoot getFailedEvent(CreateAccount event) {
+    public EventRoot failed(CreateAccount event) {
         return CreateAccount.builder()
                 .eventType("createAccountRejected")
                 .aggregateId(event.getAggregateId())
@@ -16,7 +16,7 @@ public class CreateAccountResponseFactory {
                 .build();
     }
 
-    public EventRoot getSucceedEvent(CreateAccount event) {
+    public EventRoot success(CreateAccount event) {
         return CreateAccount.builder()
                 .account(event.getAccount())
                 .eventType("createAccountCompleted")
