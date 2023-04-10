@@ -19,7 +19,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @Document("events")
 @SuperBuilder
-public abstract class EventRoot {
+public class EventRoot {
 
     @Id
     private String id;
@@ -39,7 +39,5 @@ public abstract class EventRoot {
         this.eventType = eventType;
         this.timeStamp = LocalDateTime.now();
     }
-
-    public abstract String getPayload();
 
 }

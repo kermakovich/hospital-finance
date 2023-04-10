@@ -9,4 +9,6 @@ public interface Event {
 
     void copyTo(AggregateRoot aggregate);
 
+    String getPayload();
+
 }

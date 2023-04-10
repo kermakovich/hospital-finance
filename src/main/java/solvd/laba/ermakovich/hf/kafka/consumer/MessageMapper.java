@@ -1,4 +1,4 @@
-package solvd.laba.ermakovich.hf.kafka;
+package solvd.laba.ermakovich.hf.kafka.consumer;
 
 /**
  * @author Ermakovich Kseniya
