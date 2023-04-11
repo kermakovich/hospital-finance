@@ -2,7 +2,6 @@ package solvd.laba.ermakovich.hf.kafka.consumer;
 
 import com.jcabi.xml.XMLDocument;
 import io.github.eocqrs.kafka.xml.TextXpath;
-import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +38,7 @@ public class KafkaConsumerConfig {
         Map<String, Object> kafkaPropertiesMap = new HashMap<>(7);
         kafkaPropertiesMap.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
                 bootstrapServers);
-        var file = new XMLDocument(new File(configPath));
+        var file = new XMLDocument(getClass().getResourceAsStream(configPath));
         kafkaPropertiesMap.put(ConsumerConfig.GROUP_ID_CONFIG,
                 new TextXpath(
                         file,

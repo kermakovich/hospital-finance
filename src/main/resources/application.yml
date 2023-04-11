@@ -14,7 +14,7 @@ spring:
   kafka:
     bootstrap-servers: ${BOOTSTRAP_SERVERS}
     consumer:
-      config-file: src/main/resources/kafka/consumer.xml
+      config-file: /kafka/consumer.xml
     producer:
       topic: account_events
 logging:
