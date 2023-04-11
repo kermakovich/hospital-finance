@@ -12,4 +12,6 @@ public interface AccountEventService {
 
     Mono<EventRoot> apply(CreateAccount event);
 
+    Mono<EventRoot> getResultEvent(CreateAccount event);
+
 }

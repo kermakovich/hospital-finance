@@ -33,21 +33,35 @@ public class AccountEventHandler implements AccountEventService {
 
     @Override
     public Mono<EventRoot> apply(CreateAccount event) {
-       return accountQueryService.existsByUserId(event.getAccount().getUserId())
-                .flatMap(isExist -> {
-                    EventRoot eventRoot;
-                    if (Boolean.TRUE.equals(isExist)) {
-                        eventRoot = new CreateAccountResponseFactory()
-                                .failed(event);
-                    } else {
-                        accountAggregateService.apply(event);
-                        eventRoot = new CreateAccountResponseFactory()
-                                .success(event);
-                    }
-                    saveCustom.save(eventRoot);
-                    return Mono.just(eventRoot);
-                });
+       return getResultEvent(event)
+                .flatMap(eventRoot ->
+                        saveCustom.save(eventRoot)
+                           .flatMap(savedEvent -> {
+                               if ("createAccountCompleted".equals(savedEvent.getEventType())) {
+                                   return accountAggregateService.apply(event)
+                                           .then(Mono.just(savedEvent));
+                               } else {
+                                   return Mono.just(savedEvent);
+                               }
+                       })
+                );
     }
 
 
+    @Override
+    public Mono<EventRoot> getResultEvent(CreateAccount event) {
+        return accountQueryService.existsByUserId(event.getAccount().getUserId())
+                .flatMap(exists -> {
+                    if (Boolean.TRUE.equals(exists)) {
+                        return Mono.just(new CreateAccountResponseFactory()
+                                .failed(event));
+                    } else {
+                        return Mono.just(new CreateAccountResponseFactory()
+                                .success(event));
+                    }
+                });
+    }
+
 }
+
+
