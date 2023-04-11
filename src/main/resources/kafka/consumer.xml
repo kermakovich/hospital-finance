@@ -5,5 +5,5 @@
     <valueDeserializer>org.springframework.kafka.support.serializer.JsonDeserializer</valueDeserializer>
     <topic>finance</topic>
     <useTypeInfoHeaders>false</useTypeInfoHeaders>
-    <valueDefaultType>solvd.laba.ermakovich.hf.event.IntegrationEvent</valueDefaultType>
+    <valueDefaultType>solvd.laba.ermakovich.hf.event.EventRoot</valueDefaultType>
 </consumer>

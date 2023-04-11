@@ -37,7 +37,7 @@ public class AccountController {
     @PostMapping
     public Mono<Void> create(@RequestBody UUID employeeUuid) {
         CreateAccountCommand command = new CreateAccountCommand(employeeUuid);
-        return commandService.handle(command);
+        return commandService.handle(command).then();
     }
 
 }

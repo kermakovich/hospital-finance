@@ -8,6 +8,10 @@ import solvd.laba.ermakovich.hf.event.EventRoot;
  */
 public interface AccountEventService {
 
-    Mono<Void> when(EventRoot eventRoot);
+    Mono<EventRoot> apply(EventRoot eventRoot);
+
+    Mono<EventRoot> apply(CreateAccount event);
+
+    Mono<EventRoot> getResultEvent(CreateAccount event);
 
 }

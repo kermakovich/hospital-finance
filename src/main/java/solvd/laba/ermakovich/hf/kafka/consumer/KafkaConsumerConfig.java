@@ -1,4 +1,4 @@
-package solvd.laba.ermakovich.hf.kafka;
+package solvd.laba.ermakovich.hf.kafka.consumer;
 
 import com.jcabi.xml.XMLDocument;
 import io.github.eocqrs.kafka.xml.TextXpath;
@@ -9,16 +9,14 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import reactor.kafka.receiver.KafkaReceiver;
 import reactor.kafka.receiver.ReceiverOptions;
-import solvd.laba.ermakovich.hf.event.IntegrationEvent;
+import solvd.laba.ermakovich.hf.event.EventRoot;
 
 /**
  * @author Ermakovich Kseniya
@@ -28,9 +26,9 @@ import solvd.laba.ermakovich.hf.event.IntegrationEvent;
 @RequiredArgsConstructor
 public class KafkaConsumerConfig {
 
-    private static final String TOPIC_KEY = "//topic";
+    private static final String TOPIC_KEY = "topic";
 
-    @Value("${spring.kafka.consumer.bootstrap-servers}")
+    @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
     @Value("${spring.kafka.consumer.config-file}")
@@ -70,22 +68,15 @@ public class KafkaConsumerConfig {
         kafkaPropertiesMap.put(TOPIC_KEY,
                 new TextXpath(
                         file,
-                        TOPIC_KEY
+                        "//" + TOPIC_KEY
                 ).toString());
         return kafkaPropertiesMap;
     }
 
     @Bean
-    public KafkaAdmin kafkaAdmin() {
-        Map<String, Object> configs = new HashMap<>();
-        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        return new KafkaAdmin(configs);
-    }
-
-    @Bean
-    public ReceiverOptions<String, IntegrationEvent> kafkaReceiverOptions() {
+    public ReceiverOptions<String, EventRoot> kafkaReceiverOptions() {
         var properties = kafkaConsumerProperties();
-        ReceiverOptions<String, IntegrationEvent> options = ReceiverOptions.create(properties);
+        ReceiverOptions<String, EventRoot> options = ReceiverOptions.create(properties);
         return options.subscription(
                         (Collections.singletonList(
                                 (String) properties.get(TOPIC_KEY)
@@ -96,7 +87,7 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public KafkaReceiver<String, IntegrationEvent> kafkaReceiver() {
+    public KafkaReceiver<String, EventRoot> kafkaReceiver() {
         return KafkaReceiver.create(kafkaReceiverOptions());
     }
 
