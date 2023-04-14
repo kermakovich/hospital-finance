@@ -20,7 +20,7 @@ import solvd.laba.ermakovich.hf.web.mapper.AccountMapper;
  * @author Ermakovich Kseniya
  */
 @RestController
-@RequestMapping("api/v1/accounts")
+@RequestMapping("finance-api/v1/accounts")
 @RequiredArgsConstructor
 public class AccountController {
 
